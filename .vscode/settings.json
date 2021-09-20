@@ -1,0 +1,5 @@
+{
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Path": "~/.virtualenvs/backend/bin/flake8",
+    "python.pythonPath": "~/.virtualenvs/backend/bin/python"
+}
