@@ -1,5 +1,6 @@
 # third party imports
 from rest_framework.viewsets import  ModelViewSet
+from rest_framework import status
 from rest_framework import exceptions
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -23,6 +24,19 @@ from .filters import OrderFilter
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+    def create(self, request, *args, **kwargs):
+        variable_commission_percentage = self.request.data.get('variable_commission_percentage', None)
+        if variable_commission_percentage:
+            return Response(
+                data={'error': 'Não deve conter valor para campo de comissão variável'},
+                status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class CustomerViewSet(ModelViewSet):
