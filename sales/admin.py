@@ -11,6 +11,7 @@ from .models import Order
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'price', 'fixed_commission_percentage')
+    readonly_fields=('variable_commission_percentage', )
 
 
 @admin.register(Customer)
