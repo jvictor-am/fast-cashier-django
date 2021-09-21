@@ -9,8 +9,12 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-from dotenv import load_dotenv
+
+# python imports
 import os
+
+# thid party imports
+from dotenv import load_dotenv
 from pathlib import Path
 import dj_database_url
 
@@ -45,7 +49,9 @@ INSTALLED_APPS = [
     'django_extensions',
     'corsheaders',
     'rest_framework',
+    'django_filters',
     'whitenoise.runserver_nostatic',
+    'sales',
 ]
 
 MIDDLEWARE = [
@@ -120,15 +126,27 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# https://docs.djangoproject.com/en/3.2/ref/settings/#std:setting-TIME_ZONE
+TIME_ZONE = 'America/Fortaleza'
 
+# https://docs.djangoproject.com/en/3.2/ref/settings/#use-i18n
 USE_I18N = True
 
+# https://docs.djangoproject.com/en/3.2/ref/settings/#use-l10n
 USE_L10N = True
 
+# https://docs.djangoproject.com/en/3.2/ref/settings/#use-tz
 USE_TZ = True
 
 
+# ### DJANGO REST FRAMEWORK ###
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+    ],
+}
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
