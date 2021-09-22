@@ -30,6 +30,41 @@ Backend para projeto de um caixa rápido de uma empresa hipotética. <br/>
 - Pytest
 - etc...
 
+## Exemplos de json para realizar cadastros:
+  - endpoint de [product](https://fast-cashier-dj.herokuapp.com/api/product/):
+    ```
+    {
+        "name": "Teste01",
+        "price": 150,
+        "fixed_commission_percentage": 8
+    }
+    ```
+  - endpoint de [customer](https://fast-cashier-dj.herokuapp.com/api/customer/):
+    ```
+    {
+        "name": "Tester"
+    }
+    ```
+  - endpoint de [seller](https://fast-cashier-dj.herokuapp.com/api/seller/):
+    ```
+    {
+        "name": "Tester02"
+    }
+    ```
+ - endpoint de [order](https://fast-cashier-dj.herokuapp.com/api/order/):
+    ```
+    {
+        "customer": 3,
+        "seller": 4,
+        "items": [
+            {
+                "product": 3,
+                "quantity": 4
+            }
+        ]
+    }
+    ```
+
 ## Instruçoẽs para instalação em ambiente local:
 
   - Clonar projeto:
