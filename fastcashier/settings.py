@@ -164,7 +164,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_WHITELIST = [
     'https://localhost:3000',
     'http://localhost:3000',
-    'https://fast-cashier-ts.herokuapp.com'
+    'https://fast-cashier-ts.herokuapp.com',
     'http://fast-cashier-ts.herokuapp.com'
 ]
 
