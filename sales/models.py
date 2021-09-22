@@ -8,6 +8,7 @@ from django_extensions.db.models import TimeStampedModel
 
 
 class Product(TimeStampedModel):
+    '''variable_commission_percentage field to store percentage adjusted by the time a product is ordered'''
     name = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=9, decimal_places=2)
     fixed_commission_percentage = models.DecimalField(
