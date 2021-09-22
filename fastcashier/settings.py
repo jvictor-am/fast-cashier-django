@@ -32,7 +32,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'django-insecure-8(!k$3!dh-r2!z($=*9h+cbzurc572bvp%qfxsu5rr5huzc=+z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*',]
 
@@ -164,8 +164,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_WHITELIST = [
     'https://localhost:3000',
     'http://localhost:3000',
-    # 'https://salty-springs-31441.herokuapp.com',
-    # 'http://salty-springs-31441.herokuapp.com',
+    'https://fast-cashier-ts.herokuapp.com'
+    'http://fast-cashier-ts.herokuapp.com'
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
