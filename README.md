@@ -92,9 +92,17 @@ Backend para projeto de um caixa rápido de uma empresa hipotética. <br/>
     ```
     $ python manage.py createsuperuser
     ```
+    - Executar em localhost:
+    ```
+    $ python manage.py runserver
+    ```
   - A partir daqui você deve ser capaz de visualizar API root no browser após setar DEBUG = True no arquivo de settings.py:
     ```
     $ http://localhost:8000/api/
+    ```
+  - Se verificar algum warning no terminal sobre pasta static, execute:
+    ```
+    $ python manage.py collectstatic
     ```
 
 ---
