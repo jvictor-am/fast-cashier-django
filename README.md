@@ -92,7 +92,7 @@ Backend para projeto de um caixa rápido de uma empresa hipotética. <br/>
     ```
     $ python manage.py createsuperuser
     ```
-    - Executar em localhost:
+  - Executar em localhost:
     ```
     $ python manage.py runserver
     ```
