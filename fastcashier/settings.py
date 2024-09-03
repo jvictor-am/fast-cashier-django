@@ -35,6 +35,7 @@ SECRET_KEY = 'django-insecure-8(!k$3!dh-r2!z($=*9h+cbzurc572bvp%qfxsu5rr5huzc=+z
 DEBUG = False
 
 ALLOWED_HOSTS = ['*',]
+CORS_ORIGIN_ALLOW_ALL = os.getenv("NODE_ENV") != 'production'
 
 
 # Application definition

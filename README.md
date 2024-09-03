@@ -105,6 +105,75 @@ Backend para projeto de um caixa rápido de uma empresa hipotética. <br/>
     $ python manage.py collectstatic
     ```
 
+## Execução com kind (kubernetes in docker):
+
+  - Clonar projeto:
+    ```
+    $ git clone git@github.com:jvictor-am/fast-cashier-django.git
+    ```
+  - Ir para pasta do projeto:
+    ```
+    $ cd fast-cashier-django
+    ```
+  <!-- - Fazer setup de [ambiente virtual](https://virtualenvwrapper.readthedocs.io/en/latest/install.html) -->
+  - Criar imagem docker:
+    ```
+    $ docker build -t fast-cashier-django_web:1.0 .
+    ```
+  - Verificar imagens
+    ```
+    $ docker images
+    ```
+  - Colocar imagem dentro do cluster:
+    ```
+    $ kind load docker-image fast-cashier-django_web:1.0
+    ```
+  - Verificar imagem dentro do cluster
+    ```
+    $ docker exec -it kind-control-plane /bin/bash
+    $ crictl images
+    ```
+  - Verificar todo o cluster
+    ```
+    $ kubectl get all
+    ```
+  - Apply services, deployments e configMap:
+    ```
+    $ kubectl apply -f postgres-deployment.yaml
+    $ kubectl apply -f postgres-service.yaml
+    $ kubectl apply -f django-deployment.yaml
+    $ kubectl apply -f django-service.yaml
+    $ kubectl apply -f django-configmap.yaml
+    ```
+  - Verificar todo o cluster novamente
+    ```
+    $ kubectl get all
+    ```
+  - Verificar pods
+    ```
+    $ kubectl get pods
+    ```
+  - Realizar migrações do banco:
+    ```
+    $ kubectl exec -it <nome-pod-django> -- python manage.py migrate
+    ```
+  - Realizar coleta arquivos estáticos:
+    ```
+    $ kubectl exec -it <nome-pod-django> -- python manage.py collectstatic
+    ```
+  - Realizar criação de superusuário django:
+    ```
+    $ kubectl exec -it <nome-pod-django> -- python manage.py createsuperuser
+    ```
+  - Verificar INTERNAL-IP para acesso no navegador:
+    ```
+    $ kubectl get nodes -o wide
+    ```
+  - Acessar navegador:
+    ```
+    $ http://<INTERNAL-IP>:30000/admin/
+    ```
+
 ---
 
 # Author

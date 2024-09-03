@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django
+  template:
+    metadata:
+      labels:
+        app: django
+    spec:
+      containers:
+      - name: django
+        image: fast-cashier-django_web:1.0
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DATABASE_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: django-config
+              key: DJANGO_DB_NAME
+        - name: DATABASE_USER
+          valueFrom:
+            configMapKeyRef:
+              name: django-config
+              key: DJANGO_DB_USER
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: django-config
+              key: DJANGO_DB_PASSWORD
+        - name: DATABASE_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: django-config
+              key: DJANGO_DB_HOST
+        - name: DATABASE_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: django-config
+              key: DJANGO_DB_PORT

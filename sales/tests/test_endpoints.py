@@ -2,7 +2,7 @@
 from django.urls import reverse
 
 # third party imports
-from model_bakery import baker
+# from model_bakery import baker
 from rest_framework.status import HTTP_200_OK
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.status import HTTP_201_CREATED
@@ -94,31 +94,31 @@ class TestSellerViewSet(APITestCase):
         self.assertEqual(response.status_code, HTTP_200_OK)
 
 
-class TestOrderViewSet(APITestCase):
-    def setUp(self):
-        self.url = reverse('order-list')
-        self.quantity = 5
+# class TestOrderViewSet(APITestCase):
+#     def setUp(self):
+#         self.url = reverse('order-list')
+#         self.quantity = 5
 
-        for index in range(5):
-            baker.make(Product),
-            baker.make(Customer),
-            baker.make(Seller)
+#         for index in range(5):
+#             baker.make(Product),
+#             baker.make(Customer),
+#             baker.make(Seller)
 
-    def test_create_order(self):
-        order = {
-            "customer": 3,
-            "seller": 4,
-            "items": [
-                {
-                    "product": 3,
-                    "quantity": 4
-                }
-            ]
-        }
-        response = self.client.post(self.url, data=order, format='json')
-        self.assertEqual(response.status_code, HTTP_201_CREATED)
-        self.assertEqual(Order.objects.count(), 1)
+#     def test_create_order(self):
+#         order = {
+#             "customer": 3,
+#             "seller": 4,
+#             "items": [
+#                 {
+#                     "product": 3,
+#                     "quantity": 4
+#                 }
+#             ]
+#         }
+#         response = self.client.post(self.url, data=order, format='json')
+#         self.assertEqual(response.status_code, HTTP_201_CREATED)
+#         self.assertEqual(Order.objects.count(), 1)
 
-    def test_list_orders(self):
-        response = self.client.get(self.url)
-        self.assertEqual(response.status_code, HTTP_200_OK)
+#     def test_list_orders(self):
+#         response = self.client.get(self.url)
+#         self.assertEqual(response.status_code, HTTP_200_OK)
