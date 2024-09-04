@@ -1,0 +1,155 @@
+#Postgress deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:12
+        env:
+        - name: POSTGRES_DB
+          value: mydatabase
+        - name: POSTGRES_USER
+          value: myuser
+        - name: POSTGRES_PASSWORD
+          value: mypassword
+        ports:
+        - containerPort: 5432
+
+---
+#Postgress service
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  selector:
+    app: postgres
+  ports:
+  - protocol: TCP
+    port: 5432
+    targetPort: 5432
+
+---
+#Backend deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django
+  template:
+    metadata:
+      labels:
+        app: django
+    spec:
+      containers:
+      - name: django
+        image: fast-cashier-django_web:1.0
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DATABASE_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: django-config
+              key: DJANGO_DB_NAME
+        - name: DATABASE_USER
+          valueFrom:
+            configMapKeyRef:
+              name: django-config
+              key: DJANGO_DB_USER
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: django-config
+              key: DJANGO_DB_PASSWORD
+        - name: DATABASE_HOST
+          value: postgres #Service postgres
+        - name: DATABASE_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: django-config
+              key: DJANGO_DB_PORT
+
+---
+#Banckend service
+apiVersion: v1
+kind: Service
+metadata:
+  name: django
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 8000
+    nodePort: 30000
+  selector:
+    app: django
+
+---
+#Backend configmap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: django-config
+data:
+  DJANGO_DB_NAME: mydatabase
+  DJANGO_DB_USER: myuser
+  DJANGO_DB_PASSWORD: mypassword
+  DJANGO_DB_HOST: postgres
+  DJANGO_DB_PORT: "5432"
+
+---
+#Frontend deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: react
+  template:
+    metadata:
+      labels:
+        app: react
+    spec:
+      containers:
+      - name: react
+        image: fast-cashier-react:1.0
+        ports:
+        - containerPort: 80
+        env:
+        - name: REACT_APP_BASE_URL
+          value: "http://django" #Service Back-End 
+
+---
+#Frontend service
+apiVersion: v1
+kind: Service
+metadata:
+  name: react
+spec:
+  selector:
+    app: react
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30001
+  type: NodePort

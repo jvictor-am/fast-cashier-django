@@ -1,0 +1,29 @@
+Junta os dois repos dentro de uma pasta e execute o seguintes comandos:
+
+kind create cluster
+
+docker build --no-cache -t fast-cashier-react:1.0 ./fast-cashier-react/
+
+docker build --no-cache -t fast-cashier-django_web:1.0 ./fast-cashier-django_web/
+
+docker pull postgres:12
+
+kind load docker-image fast-cashier-react:1.0
+
+kind load docker-image fast-cashier-django_web:1.0
+
+kind load docker-image postgres:12
+
+kubectl apply -f deployment.yaml
+
+kubectl exec -it pods/django-cffffb7df-xfrtl -- python manage.py migrate
+
+kubectl exec -it pods/django-cffffb7df-xfrtl -- python manage.py collectstatic
+
+kubectl exec -it pods/django-cffffb7df-xfrtl -- python manage.py createsuperuser
+
+kubectl get nodes -o wide
+
+Acesse ipcluster:30000/api para popular o banco.
+
+Acesse ipcluster:30001 para acessar o frontend.
